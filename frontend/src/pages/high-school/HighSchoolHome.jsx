@@ -66,7 +66,7 @@ const HighSchoolHome = () => {
     relation: "Parent",
     student: "Chandana R, 9th Std",
     content:
-      "Child safety and security have gone to a whole new level. We are very happy to let our children come to this school. It is good to see the school investing in new buildings and capital projects. The organization of school life creates an orderly environment. We sincerely appreciate the dedication of the teachers and management. My child’s progress has been remarkable."
+      "Child safety and security have gone to a whole new level. We are very happy to let our children come to this school. It is good to see the school investing in new buildings and capital projects. The organization of school life creates an orderly environment. We sincerely appreciate the dedication of the teachers and management. My child's progress has been remarkable."
   },
   {
     name: "Kousthubh Shanbogh's Parent",
@@ -80,7 +80,7 @@ const HighSchoolHome = () => {
     relation: "Parent",
     student: "Abhay Surya, 9th Std",
     content:
-      "We are impressed with how the school has supported my son’s learning needs and adapted teaching approaches to suit his style. We appreciate the willingness to listen to parental concerns and work collaboratively to find solutions. We are grateful for the extra resources provided to help him catch up on missed materials."
+      "We are impressed with how the school has supported my son's learning needs and adapted teaching approaches to suit his style. We appreciate the willingness to listen to parental concerns and work collaboratively to find solutions. We are grateful for the extra resources provided to help him catch up on missed materials."
   }
 ];
 
@@ -185,75 +185,194 @@ const HighSchoolHome = () => {
 
   return (
     <div className="min-h-screen">
-      {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-primary via-blue-900 to-primary text-white overflow-hidden">
+      {/* Hero Section - Enhanced */}
+      <section className="relative bg-gradient-to-br from-[#0F2A4A] via-blue-900 to-[#0F2A4A] text-white overflow-hidden">
+        {/* Animated Background Pattern */}
         <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-20 left-10 w-72 h-72 bg-secondary rounded-full blur-3xl"></div>
-          <div className="absolute bottom-20 right-10 w-96 h-96 bg-secondary rounded-full blur-3xl"></div>
+          <motion.div 
+            animate={{ 
+              scale: [1, 1.2, 1],
+              rotate: [0, 90, 0]
+            }}
+            transition={{ 
+              duration: 20,
+              repeat: Infinity,
+              ease: "linear"
+            }}
+            className="absolute top-20 left-10 w-72 h-72 bg-[#FDB913] rounded-full blur-3xl"
+          ></motion.div>
+          <motion.div 
+            animate={{ 
+              scale: [1, 1.3, 1],
+              rotate: [0, -90, 0]
+            }}
+            transition={{ 
+              duration: 25,
+              repeat: Infinity,
+              ease: "linear"
+            }}
+            className="absolute bottom-20 right-10 w-96 h-96 bg-[#FDB913] rounded-full blur-3xl"
+          ></motion.div>
+        </div>
+
+        {/* Floating Particles */}
+        <div className="absolute inset-0">
+          {[...Array(25)].map((_, i) => (
+            <motion.div
+              key={i}
+              className="absolute w-2 h-2 bg-[#FDB913]/30 rounded-full"
+              initial={{
+                x: Math.random() * window.innerWidth,
+                y: Math.random() * 600,
+              }}
+              animate={{
+                y: [null, -100],
+                x: [null, Math.random() * 50 - 25],
+                opacity: [0.3, 0, 0.3],
+              }}
+              transition={{
+                duration: 3 + Math.random() * 2,
+                repeat: Infinity,
+                delay: Math.random() * 2,
+              }}
+            />
+          ))}
         </div>
 
         <div className="relative max-w-7xl mx-auto px-4 py-20 md:py-28">
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
             className="text-center max-w-4xl mx-auto"
           >
             <motion.div
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-              transition={{ delay: 0.2, type: "spring" }}
-              className="inline-block px-4 py-2 bg-secondary/20 backdrop-blur-sm rounded-full mb-6 border border-secondary/30"
+              initial={{ scale: 0, rotate: -180 }}
+              animate={{ scale: 1, rotate: 0 }}
+              transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
+              whileHover={{ scale: 1.05 }}
+              className="inline-block px-4 py-2 bg-[#FDB913]/20 backdrop-blur-sm rounded-full mb-6 border border-[#FDB913]/30 shadow-lg"
             >
-              <span className="text-secondary font-semibold">Grade 9-10 • State Board</span>
+              <span className="text-[#FDB913] font-semibold">Grade 9-10 • State Board</span>
             </motion.div>
 
-            <h1 className="text-4xl md:text-6xl font-bold mb-6 leading-tight">
+            <motion.h1 
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.3 }}
+              className="text-4xl md:text-6xl font-bold mb-6 leading-tight"
+            >
               S. Cadambi Vidya Kendra
-              <span className="block text-secondary mt-2">High School</span>
-            </h1>
+              <motion.span 
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.8, delay: 0.5 }}
+                className="block text-[#FDB913] mt-2"
+              >
+                High School
+              </motion.span>
+            </motion.h1>
 
-            <p className="text-lg md:text-xl text-gray-300 mb-4 italic">
-              "Jnanam Paramam Balam"
-            </p>
-            <p className="text-base md:text-lg text-gray-400 mb-8">
-              Knowledge is the Supreme Power
-            </p>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.8, delay: 0.6 }}
+            >
+              <p className="text-lg md:text-xl text-gray-300 mb-4 italic">
+                "Jnanam Paramam Balam"
+              </p>
+              <motion.p 
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.5, delay: 0.7 }}
+                className="text-base md:text-lg text-gray-400 mb-8"
+              >
+                Knowledge is the Supreme Power
+              </motion.p>
+            </motion.div>
 
-            <p className="text-lg md:text-xl text-gray-300 mb-8 max-w-3xl mx-auto leading-relaxed">
+            <motion.p 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.8 }}
+              className="text-lg md:text-xl text-gray-300 mb-8 max-w-3xl mx-auto leading-relaxed"
+            >
               Empowering young minds through quality education, strong values, and holistic development since 1984.
-            </p>
+            </motion.p>
 
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link
-                to="/high-school/admissions"
-                className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-secondary text-white rounded-full font-semibold hover:bg-yellow-600 transition-all hover:scale-105 shadow-xl"
-              >
-                Apply Now <ArrowRight size={20} />
+            <motion.div 
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.9 }}
+              className="flex flex-col sm:flex-row gap-4 justify-center"
+            >
+              <Link to="/high-school/admissions">
+                <motion.button
+                  whileHover={{ 
+                    scale: 1.05,
+                    boxShadow: "0 20px 40px rgba(253, 185, 19, 0.4)"
+                  }}
+                  whileTap={{ scale: 0.95 }}
+                  className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-gradient-to-r from-[#FDB913] to-amber-400 text-white rounded-full font-semibold transition-all shadow-xl group"
+                >
+                  Apply Now 
+                  <ArrowRight className="group-hover:translate-x-2 transition-transform" size={20} />
+                </motion.button>
               </Link>
-              <Link
-                to="/high-school/about"
-                className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white/10 backdrop-blur-sm text-white rounded-full font-semibold hover:bg-white/20 transition-all border border-white/30"
-              >
-                Learn More
+              <Link to="/high-school/about">
+                <motion.button
+                  whileHover={{ 
+                    scale: 1.05,
+                    backgroundColor: "rgba(255, 255, 255, 0.2)"
+                  }}
+                  whileTap={{ scale: 0.95 }}
+                  className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white/10 backdrop-blur-sm text-white rounded-full font-semibold transition-all border border-white/30 shadow-lg"
+                >
+                  Learn More
+                </motion.button>
               </Link>
-            </div>
+            </motion.div>
           </motion.div>
         </div>
 
-        {/* Stats Section */}
+        {/* Stats Section - Enhanced */}
         <div className="relative max-w-7xl mx-auto px-4 pb-16">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             {stats.map((stat, index) => (
               <motion.div
                 key={stat.label}
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 50 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.6 + index * 0.1 }}
-                className="bg-white/10 backdrop-blur-md rounded-2xl p-6 text-center border border-white/20 hover:bg-white/20 transition-all"
+                transition={{ 
+                  delay: 1 + index * 0.1,
+                  type: "spring",
+                  stiffness: 100
+                }}
+                whileHover={{ 
+                  y: -10,
+                  boxShadow: "0 20px 40px rgba(253, 185, 19, 0.2)",
+                  transition: { duration: 0.3 }
+                }}
+                className="bg-white/10 backdrop-blur-md rounded-2xl p-6 text-center border border-white/20 transition-all"
               >
-                <stat.icon className="w-8 h-8 mx-auto mb-3 text-secondary" />
-                <div className="text-3xl font-bold mb-2">{stat.value}</div>
+                <motion.div
+                  whileHover={{ rotate: 360, scale: 1.2 }}
+                  transition={{ duration: 0.6 }}
+                >
+                  <stat.icon className="w-8 h-8 mx-auto mb-3 text-[#FDB913]" />
+                </motion.div>
+                <motion.div 
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  transition={{ 
+                    delay: 1.2 + index * 0.1,
+                    type: "spring",
+                    stiffness: 200
+                  }}
+                  className="text-3xl font-bold mb-2"
+                >
+                  {stat.value}
+                </motion.div>
                 <div className="text-sm text-gray-300">{stat.label}</div>
               </motion.div>
             ))}
@@ -320,7 +439,7 @@ const HighSchoolHome = () => {
                 </div>
               </div>
 
-              {/* Spacer so overlaps don’t cut off */}
+              {/* Spacer so overlaps don't cut off */}
               <div className="h-24 md:h-28" />
             </motion.div>
 
@@ -382,7 +501,7 @@ const HighSchoolHome = () => {
                 </div>
               </div>
 
-              {/* Button like “More About” in screenshot, but with your theme */}
+              {/* Button like "More About" in screenshot, but with your theme */}
               <div>
                 <Link
                   to="/high-school/about"

@@ -127,7 +127,7 @@ const IcsePrimaryHome = () => {
             <section className="relative pt-32 pb-20 bg-gradient-to-br from-primary via-primary to-blue-900 text-white overflow-hidden mt-20">
                 <div className="absolute inset-0 opacity-10">
                     <div className="absolute inset-0" style={{
-                        backgroundImage: `radial-gradient(circle at 2px 2px, white 1px, transparent 0)`,
+                       
                         backgroundSize: '40px 40px'
                     }}></div>
                 </div>
