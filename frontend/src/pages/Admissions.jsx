@@ -1,18 +1,8 @@
-import React, { useState, useRef  } from 'react';
-import { motion, useScroll,useTransform } from 'framer-motion';
-import { FileText, Users, FolderOpen, CreditCard, Phone, Mail, MapPin, Clock, CheckCircle, Sparkles, ArrowRight, Calendar, Award,  School,GraduationCap  } from 'lucide-react';
-import { sendContact } from '../utils/sendContact';
+import React, { useRef  } from 'react';
+import { motion, useScroll, useTransform } from 'framer-motion';
+import { FileText, Users, FolderOpen, CreditCard, Phone, Mail, MapPin, Clock, CheckCircle, Sparkles, ArrowRight, Calendar, School, GraduationCap, BookOpen, Trophy  } from 'lucide-react';
 
 const Admissions = () => {
-    const [formData, setFormData] = useState({
-        parentName: '',
-        phone: '',
-        email: '',
-        childName: '',
-        grade: '',
-        message: ''
-    });
-
     const steps = [
         {
             icon: FileText,
@@ -63,6 +53,29 @@ const Admissions = () => {
         { name: "Previous School Records", detail: "If applicable", required: false }
     ];
 
+    const whyChooseUs = [
+        {
+            icon: BookOpen,
+            title: "Quality Education",
+            desc: "Comprehensive curriculum aligned with ICSE/State Board standards"
+        },
+        {
+            icon: Trophy,
+            title: "Holistic Development",
+            desc: "Focus on academics, sports, arts, and character building"
+        },
+        {
+            icon: Users,
+            title: "Experienced Faculty",
+            desc: "Dedicated teachers committed to student success"
+        },
+        {
+            icon: School,
+            title: "Modern Infrastructure",
+            desc: "Well-equipped classrooms, labs, and sports facilities"
+        }
+    ];
+
     // Animation Variants
     const containerVariants = {
         hidden: { opacity: 0 },
@@ -75,15 +88,6 @@ const Admissions = () => {
         }
     };
 
-    const itemVariants = {
-        hidden: { opacity: 0, y: 20 },
-        visible: {
-            opacity: 1,
-            y: 0,
-            transition: { duration: 0.5, ease: "easeOut" }
-        }
-    };
-
     const scaleVariants = {
         hidden: { opacity: 0, scale: 0.9 },
         visible: {
@@ -91,32 +95,6 @@ const Admissions = () => {
             scale: 1,
             transition: { duration: 0.5, ease: "easeOut" }
         }
-    };
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        try {
-            await sendContact({
-                section: 'admissions',
-                name: formData.parentName,
-                email: formData.email,
-                phone: formData.phone,
-                message: formData.message,
-                extra: { childName: formData.childName, grade: formData.grade }
-            });
-            alert('Admission enquiry sent. We will contact you soon.');
-            setFormData({ parentName: '', phone: '', email: '', childName: '', grade: '', message: '' });
-        } catch (err) {
-            console.error(err);
-            alert('Failed to send enquiry. Please try again later.');
-        }
-    };
-
-    const handleChange = (e) => {
-        setFormData({
-            ...formData,
-            [e.target.name]: e.target.value
-        });
     };
 
     const heroRef = useRef(null);
@@ -127,7 +105,6 @@ const Admissions = () => {
 
     const y = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
     const opacity = useTransform(scrollYProgress, [0, 1], [1, 0]);
-
 
     return (
         <div className="pt-20 min-h-screen bg-gradient-to-b from-gray-50 to-white relative overflow-hidden">
@@ -151,8 +128,7 @@ const Admissions = () => {
                 className="absolute bottom-0 left-0 w-[700px] h-[700px] bg-primary rounded-full blur-3xl"
             />
 
-
-             {/* Enhanced Hero Section */}
+            {/* Enhanced Hero Section */}
             <section
                 ref={heroRef}
                 className="relative bg-gradient-to-br from-[#0F2A4A] via-[#1a3a5f] to-[#0F2A4A] text-white pt-40 overflow-hidden pb-32"
@@ -223,7 +199,7 @@ const Admissions = () => {
                             >
                                 <Sparkles className="mr-2" size={20} />
                             </motion.div>
-                           Admissions Open 2026-2027
+                            Admissions Open 2026-2027
                         </motion.div>
 
                         <motion.h1
@@ -244,7 +220,7 @@ const Admissions = () => {
                                 }}
                                 transition={{ duration: 2, repeat: Infinity }}
                             >
-                               Family
+                                Family
                             </motion.span>
                         </motion.h1>
 
@@ -273,7 +249,7 @@ const Admissions = () => {
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: 0.8, duration: 0.8 }}
                         >
-                           Begin your child's journey to excellence with quality education and holistic development
+                            Begin your child's journey to excellence with quality education and holistic development
                         </motion.p>
                     </div>
                 </motion.div>
@@ -346,263 +322,166 @@ const Admissions = () => {
                     ))}
                 </motion.div>
 
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start mb-16">
-                    {/* Left Column - Process Section */}
-                    <div className="space-y-8">
-                        <motion.div
-                            initial={{ opacity: 0, x: -50 }}
-                            whileInView={{ opacity: 1, x: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 0.8 }}
-                        >
-                            <div className="flex items-center gap-3 mb-6">
-                                <motion.div
-                                    animate={{ rotate: [0, 360] }}
-                                    transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
-                                    className="bg-gradient-to-br from-secondary to-yellow-400 p-3 rounded-xl"
-                                >
-                                    <Calendar className="text-primary" size={28} />
-                                </motion.div>
-                                <h2 className="text-3xl font-bold text-primary font-serif">Admission Process</h2>
-                            </div>
-
-                            <div className="space-y-5">
-                                {steps.map((step, idx) => (
-                                    <motion.div
-                                        key={idx}
-                                        initial={{ opacity: 0, x: -50 }}
-                                        whileInView={{ opacity: 1, x: 0 }}
-                                        viewport={{ once: true }}
-                                        transition={{ delay: idx * 0.15, duration: 0.6 }}
-                                        whileHover={{ x: 10, scale: 1.02 }}
-                                        className="relative"
-                                    >
-                                        {/* Connection Line */}
-                                        {idx < steps.length - 1 && (
-                                            <motion.div
-                                                initial={{ height: 0 }}
-                                                whileInView={{ height: "100%" }}
-                                                viewport={{ once: true }}
-                                                transition={{ delay: idx * 0.15 + 0.3, duration: 0.4 }}
-                                                className="absolute left-6 top-16 w-0.5 h-full bg-gradient-to-b from-secondary to-primary/20 z-0"
-                                            />
-                                        )}
-
-                                        <div className="flex items-start space-x-4 bg-white p-6 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 group relative z-10">
-                                            <motion.div
-                                                className={`bg-gradient-to-br ${step.color} p-4 rounded-xl text-white shrink-0 relative`}
-                                                whileHover={{ scale: 1.1, rotate: 5 }}
-                                                transition={{ duration: 0.3 }}
-                                            >
-                                                <step.icon size={24} />
-                                                <motion.div
-                                                    className="absolute -top-2 -right-2 bg-secondary text-primary rounded-full w-6 h-6 flex items-center justify-center text-xs font-bold"
-                                                    initial={{ scale: 0 }}
-                                                    whileInView={{ scale: 1 }}
-                                                    viewport={{ once: true }}
-                                                    transition={{ delay: idx * 0.15 + 0.5, type: "spring" }}
-                                                >
-                                                    {idx + 1}
-                                                </motion.div>
-                                            </motion.div>
-
-                                            <div className="flex-1">
-                                                <h3 className="text-lg font-bold text-gray-800 mb-2 group-hover:text-primary transition-colors">
-                                                    {step.title}
-                                                </h3>
-                                                <p className="text-gray-600 text-sm leading-relaxed">{step.desc}</p>
-                                            </div>
-
-                                            <motion.div
-                                                className="opacity-0 group-hover:opacity-100 transition-opacity"
-                                                animate={{ x: [0, 5, 0] }}
-                                                transition={{ duration: 1.5, repeat: Infinity }}
-                                            >
-                                                <ArrowRight className="text-secondary" size={20} />
-                                            </motion.div>
-                                        </div>
-                                    </motion.div>
-                                ))}
-                            </div>
-                        </motion.div>
+                {/* Why Choose Us Section */}
+                <motion.div
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.6 }}
+                    className="mb-20"
+                >
+                    <div className="text-center mb-12">
+                        <h2 className="text-3xl md:text-4xl font-bold text-primary font-serif mb-2">
+                            Why Choose Us
+                        </h2>
+                        <div className="w-24 h-1 bg-secondary mx-auto mb-3"></div>
+                        <p className="text-gray-600 text-lg">
+                            Excellence in education for over four decades
+                        </p>
                     </div>
 
-                    {/* Right Column - Enhanced Inquiry Form */}
-                    <motion.div
-                        initial={{ opacity: 0, x: 50 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ duration: 0.8 }}
-                        className="lg:sticky lg:top-24"
-                    >
-                        <motion.div
-                            whileHover={{ scale: 1.01 }}
-                            className="bg-white p-8 rounded-2xl shadow-2xl border-t-4 border-secondary relative overflow-hidden"
-                        >
-                            {/* Decorative Elements */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                        {whyChooseUs.map((item, idx) => (
                             <motion.div
-                                animate={{ rotate: 360 }}
-                                transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
-                                className="absolute -top-16 -right-16 w-32 h-32 border-4 border-secondary/10 rounded-full"
-                            />
+                                key={idx}
+                                initial={{ opacity: 0, y: 20 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true }}
+                                transition={{ delay: idx * 0.1 }}
+                                whileHover={{ y: -10, scale: 1.02 }}
+                                className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-2xl transition-all duration-300 group relative overflow-hidden"
+                            >
+                                <motion.div
+                                    className="absolute inset-0 bg-gradient-to-br from-primary/0 to-primary/0 group-hover:from-primary/5 group-hover:to-primary/10"
+                                    initial={{ opacity: 0 }}
+                                    whileHover={{ opacity: 1 }}
+                                />
+
+                                <motion.div
+                                    className="bg-gradient-to-br from-secondary to-yellow-400 w-14 h-14 rounded-xl flex items-center justify-center mb-4"
+                                    whileHover={{ rotate: 360, scale: 1.1 }}
+                                    transition={{ duration: 0.6 }}
+                                >
+                                    <item.icon className="text-primary" size={28} />
+                                </motion.div>
+
+                                <h3 className="text-xl font-bold text-primary mb-2 group-hover:text-primary/80 transition-colors">
+                                    {item.title}
+                                </h3>
+                                <p className="text-gray-600 text-sm leading-relaxed">
+                                    {item.desc}
+                                </p>
+                            </motion.div>
+                        ))}
+                    </div>
+                </motion.div>
+
+                {/* Admission Process Section - Enhanced Full Width */}
+                <motion.div
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.6 }}
+                    className="mb-20"
+                >
+                    <div className="text-center mb-12">
+                        <div className="flex items-center justify-center gap-3 mb-4">
                             <motion.div
-                                animate={{ rotate: -360 }}
-                                transition={{ duration: 40, repeat: Infinity, ease: "linear" }}
-                                className="absolute -bottom-16 -left-16 w-32 h-32 border-4 border-primary/10 rounded-full"
-                            />
+                                animate={{ rotate: [0, 360] }}
+                                transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
+                                className="bg-gradient-to-br from-secondary to-yellow-400 p-3 rounded-xl"
+                            >
+                                <Calendar className="text-primary" size={32} />
+                            </motion.div>
+                            <h2 className="text-3xl md:text-4xl font-bold text-primary font-serif">
+                                Admission Process
+                            </h2>
+                        </div>
+                        <div className="w-24 h-1 bg-secondary mx-auto mb-3"></div>
+                        <p className="text-gray-600 text-lg">
+                            Simple and transparent admission steps
+                        </p>
+                    </div>
 
-                            <div className="relative z-10">
-                                <div className="flex items-center gap-3 mb-2">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                        {steps.map((step, idx) => (
+                            <motion.div
+                                key={idx}
+                                initial={{ opacity: 0, y: 50 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true }}
+                                transition={{ delay: idx * 0.15, duration: 0.6 }}
+                                whileHover={{ y: -10, scale: 1.03 }}
+                                className="relative"
+                            >
+                                <div className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-2xl transition-all duration-300 group h-full relative overflow-hidden">
+                                    {/* Decorative Background */}
                                     <motion.div
-                                        animate={{
-                                            y: [0, -10, 0],
-                                            rotate: [0, 10, -10, 0]
-                                        }}
-                                        transition={{ duration: 2, repeat: Infinity }}
-                                    >
-                                        <Sparkles className="text-secondary" size={28} />
-                                    </motion.div>
-                                    <h2 className="text-3xl font-bold text-primary font-serif">Admission Enquiry</h2>
-                                </div>
-                                <p className="text-gray-600 mb-6 text-sm">Fill out the form below and our admissions team will contact you shortly.</p>
+                                        className="absolute inset-0 bg-gradient-to-br from-primary/0 to-primary/0 group-hover:from-primary/5 group-hover:to-primary/10"
+                                        initial={{ opacity: 0 }}
+                                        whileHover={{ opacity: 1 }}
+                                    />
 
-                                <form onSubmit={handleSubmit} className="space-y-5">
-                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                        <motion.div
-                                            initial={{ opacity: 0, y: 20 }}
-                                            animate={{ opacity: 1, y: 0 }}
-                                            transition={{ delay: 0.1 }}
-                                        >
-                                            <label className="block text-sm font-semibold text-gray-700 mb-2">Parent's Name *</label>
-                                            <motion.input
-                                                whileFocus={{ scale: 1.02 }}
-                                                type="text"
-                                                name="parentName"
-                                                value={formData.parentName}
-                                                onChange={handleChange}
-                                                className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:ring-2 focus:ring-secondary focus:border-transparent outline-none transition-all text-sm"
-                                                placeholder="Enter your name"
-                                                required
-                                            />
-                                        </motion.div>
-
-                                        <motion.div
-                                            initial={{ opacity: 0, y: 20 }}
-                                            animate={{ opacity: 1, y: 0 }}
-                                            transition={{ delay: 0.15 }}
-                                        >
-                                            <label className="block text-sm font-semibold text-gray-700 mb-2">Phone Number *</label>
-                                            <motion.input
-                                                whileFocus={{ scale: 1.02 }}
-                                                type="tel"
-                                                name="phone"
-                                                value={formData.phone}
-                                                onChange={handleChange}
-                                                className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:ring-2 focus:ring-secondary focus:border-transparent outline-none transition-all text-sm"
-                                                placeholder="+91 9876543210"
-                                                required
-                                            />
-                                        </motion.div>
-                                    </div>
-
+                                    {/* Step Number Badge */}
                                     <motion.div
-                                        initial={{ opacity: 0, y: 20 }}
-                                        animate={{ opacity: 1, y: 0 }}
-                                        transition={{ delay: 0.2 }}
+                                        className="absolute top-4 right-4 bg-secondary text-primary rounded-full w-10 h-10 flex items-center justify-center text-lg font-bold shadow-lg"
+                                        initial={{ scale: 0, rotate: -180 }}
+                                        whileInView={{ scale: 1, rotate: 0 }}
+                                        viewport={{ once: true }}
+                                        transition={{ delay: idx * 0.15 + 0.3, type: "spring" }}
                                     >
-                                        <label className="block text-sm font-semibold text-gray-700 mb-2">Email Address *</label>
-                                        <motion.input
-                                            whileFocus={{ scale: 1.02 }}
-                                            type="email"
-                                            name="email"
-                                            value={formData.email}
-                                            onChange={handleChange}
-                                            className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:ring-2 focus:ring-secondary focus:border-transparent outline-none transition-all text-sm"
-                                            placeholder="your.email@example.com"
-                                            required
-                                        />
+                                        {idx + 1}
                                     </motion.div>
 
-                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                        <motion.div
-                                            initial={{ opacity: 0, y: 20 }}
-                                            animate={{ opacity: 1, y: 0 }}
-                                            transition={{ delay: 0.25 }}
-                                        >
-                                            <label className="block text-sm font-semibold text-gray-700 mb-2">Child's Name *</label>
-                                            <motion.input
-                                                whileFocus={{ scale: 1.02 }}
-                                                type="text"
-                                                name="childName"
-                                                value={formData.childName}
-                                                onChange={handleChange}
-                                                className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:ring-2 focus:ring-secondary focus:border-transparent outline-none transition-all text-sm"
-                                                placeholder="Enter child's name"
-                                                required
-                                            />
-                                        </motion.div>
-
-                                        <motion.div
-                                            initial={{ opacity: 0, y: 20 }}
-                                            animate={{ opacity: 1, y: 0 }}
-                                            transition={{ delay: 0.3 }}
-                                        >
-                                            <label className="block text-sm font-semibold text-gray-700 mb-2">Grade Applying For *</label>
-                                            <motion.select
-                                                whileFocus={{ scale: 1.02 }}
-                                                name="grade"
-                                                value={formData.grade}
-                                                onChange={handleChange}
-                                                className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:ring-2 focus:ring-secondary focus:border-transparent outline-none transition-all text-sm"
-                                                required
-                                            >
-                                                <option value="">Select Grade</option>
-                                                <option value="preschool">Pre-School (Playhome, Pre KG, LKG, UKG)</option>
-                                                <option value="primary">Primary (Grade 1-5)</option>
-                                                <option value="secondary">Secondary (Grade 6-10)</option>
-                                                <option value="pu">PU College (Grade 11-12)</option>
-                                            </motion.select>
-                                        </motion.div>
-                                    </div>
-
+                                    {/* Icon */}
                                     <motion.div
-                                        initial={{ opacity: 0, y: 20 }}
-                                        animate={{ opacity: 1, y: 0 }}
-                                        transition={{ delay: 0.35 }}
+                                        className={`bg-gradient-to-br ${step.color} p-5 rounded-2xl text-white inline-flex mb-5 relative z-10`}
+                                        whileHover={{ scale: 1.1, rotate: 5 }}
+                                        transition={{ duration: 0.3 }}
                                     >
-                                        <label className="block text-sm font-semibold text-gray-700 mb-2">Message / Queries</label>
-                                        <motion.textarea
-                                            whileFocus={{ scale: 1.02 }}
-                                            name="message"
-                                            value={formData.message}
-                                            onChange={handleChange}
-                                            className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:ring-2 focus:ring-secondary focus:border-transparent outline-none transition-all resize-none text-sm"
-                                            rows="4"
-                                            placeholder="Any specific questions or requirements?"
-                                        />
+                                        <step.icon size={32} />
                                     </motion.div>
 
-                                    <motion.button
-                                        type="submit"
-                                        whileHover={{ scale: 1.02 }}
-                                        whileTap={{ scale: 0.98 }}
-                                        className="w-full bg-gradient-to-r from-secondary to-yellow-400 hover:from-yellow-400 hover:to-secondary text-primary font-bold py-4 rounded-lg transition-all duration-300 shadow-lg hover:shadow-2xl flex items-center justify-center gap-2"
-                                    >
-                                        Submit Enquiry
+                                    {/* Content */}
+                                    <div className="relative z-10">
+                                        <h3 className="text-xl font-bold text-gray-800 mb-3 group-hover:text-primary transition-colors">
+                                            {step.title}
+                                        </h3>
+                                        <p className="text-gray-600 text-sm leading-relaxed mb-4">
+                                            {step.desc}
+                                        </p>
+
+                                        {/* Arrow Indicator */}
                                         <motion.div
+                                            className="flex items-center justify-end text-secondary opacity-0 group-hover:opacity-100 transition-opacity"
                                             animate={{ x: [0, 5, 0] }}
                                             transition={{ duration: 1.5, repeat: Infinity }}
                                         >
-                                            <ArrowRight size={20} />
+                                            <span className="text-sm font-semibold mr-2">Next</span>
+                                            <ArrowRight size={18} />
                                         </motion.div>
-                                    </motion.button>
-                                </form>
-                            </div>
-                        </motion.div>
-                    </motion.div>
-                </div>
+                                    </div>
+                                </div>
 
-                {/* NEW DESIGN - Eligibility Criteria Section */}
-                <div className='my-12'>
+                                {/* Connector Arrow - Desktop Only */}
+                                {idx < steps.length - 1 && (
+                                    <motion.div
+                                        initial={{ opacity: 0, x: -20 }}
+                                        whileInView={{ opacity: 1, x: 0 }}
+                                        viewport={{ once: true }}
+                                        transition={{ delay: idx * 0.15 + 0.5 }}
+                                        className="hidden lg:block absolute top-1/2 -right-3 z-20"
+                                    >
+                                        <ArrowRight className="text-secondary" size={24} />
+                                    </motion.div>
+                                )}
+                            </motion.div>
+                        ))}
+                    </div>
+                </motion.div>
+
+                {/* Eligibility Criteria Section */}
+                <div className='my-20'>
                     <motion.div
                         initial={{ opacity: 0, y: 30 }}
                         whileInView={{ opacity: 1, y: 0 }}
@@ -610,77 +489,77 @@ const Admissions = () => {
                         transition={{ duration: 0.6 }}
                         className="relative"
                     >
-                        <div className="text-center m-6">
+                        <div className="text-center mb-12">
                             <h2 className="text-3xl md:text-4xl font-bold text-primary font-serif mb-2">
                                 Eligibility Criteria
                             </h2>
                             <div className="w-24 h-1 bg-secondary mx-auto mb-3"></div>
-                            <p className="text-gray-600">
+                            <p className="text-gray-600 text-lg">
                                 Please ensure your child meets the age requirements for admission
                             </p>
                         </div>
 
-                        <div className="l p-6 sm:p-8  ">
-                            <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
-                                {eligibility.map((item, idx) => (
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                            {eligibility.map((item, idx) => (
+                                <motion.div
+                                    key={idx}
+                                    initial={{ opacity: 0, scale: 0.9 }}
+                                    whileInView={{ opacity: 1, scale: 1 }}
+                                    viewport={{ once: true }}
+                                    transition={{ delay: idx * 0.1 }}
+                                    whileHover={{ scale: 1.05, y: -5 }}
+                                    className="bg-gradient-to-br from-[#0F2A4A] to-[#1a3a5f] rounded-2xl p-6 relative overflow-hidden group cursor-pointer shadow-xl hover:shadow-2xl transition-all duration-300"
+                                >
+                                    {/* Decorative Elements */}
+                                    <div className="absolute top-0 right-0 w-24 h-24 bg-secondary/10 rounded-bl-full"></div>
                                     <motion.div
-                                        key={idx}
-                                        initial={{ opacity: 0, scale: 0.9 }}
-                                        whileInView={{ opacity: 1, scale: 1 }}
-                                        viewport={{ once: true }}
-                                        transition={{ delay: idx * 0.1 }}
-                                        whileHover={{ scale: 1.03, y: -5 }}
-                                        className="bg-primary rounded-xl p-5 relative overflow-hidden group cursor-pointer"
-                                    >
-                                        {/* Decorative corner */}
-                                        <div className="absolute top-0 right-0 w-20 h-20 bg-secondary/10 rounded-bl-full"></div>
+                                        className="absolute -bottom-8 -right-8 w-24 h-24 bg-secondary/5 rounded-full"
+                                        animate={{ scale: [1, 1.2, 1], rotate: [0, 90, 0] }}
+                                        transition={{ duration: 4, repeat: Infinity }}
+                                    />
 
-                                        <div className="relative z-10">
-                                            <div className="flex items-start justify-between mb-3">
-                                                <motion.div
-                                                    className="bg-secondary rounded-full w-10 h-10 flex items-center justify-center shrink-0"
-                                                    whileHover={{ rotate: 360 }}
-                                                    transition={{ duration: 0.6 }}
-                                                >
-                                                    <CheckCircle className="text-primary" size={20} />
-                                                </motion.div>
-                                                {item.required && (
-                                                    <span className="text-secondary text-xs font-bold uppercase tracking-wide">
-                                                        Required
-                                                    </span>
-                                                )}
-                                            </div>
-
-                                            <h3 className="text-white font-bold text-lg mb-2">
-                                                {item.grade}
-                                            </h3>
-                                            <p className="text-white/90 text-sm mb-1">
-                                                {item.age}
-                                            </p>
-                                            <p className="text-white/70 text-xs">
-                                                {item.date}
-                                            </p>
+                                    <div className="relative z-10">
+                                        <div className="flex items-start justify-between mb-4">
+                                            <motion.div
+                                                className="bg-secondary rounded-full w-12 h-12 flex items-center justify-center shrink-0"
+                                                whileHover={{ rotate: 360 }}
+                                                transition={{ duration: 0.6 }}
+                                            >
+                                                <CheckCircle className="text-primary" size={24} />
+                                            </motion.div>
+                                            {item.required && (
+                                                <span className="text-secondary text-xs font-bold uppercase tracking-wide">
+                                                    Required
+                                                </span>
+                                            )}
                                         </div>
 
-                                        {/* Hover effect */}
-                                        <motion.div
-                                            className="absolute inset-0 bg-gradient-to-br from-secondary/0 to-secondary/0 group-hover:from-secondary/20 group-hover:to-secondary/10"
-                                            initial={{ opacity: 0 }}
-                                            whileHover={{ opacity: 1 }}
-                                        />
-                                    </motion.div>
-                                ))}
-                            </div>
+                                        <h3 className="text-white font-bold text-xl mb-3">
+                                            {item.grade}
+                                        </h3>
+                                        <p className="text-white/90 text-base mb-2 font-medium">
+                                            {item.age}
+                                        </p>
+                                        <p className="text-white/70 text-sm">
+                                            {item.date}
+                                        </p>
+                                    </div>
+                                </motion.div>
+                            ))}
                         </div>
                     </motion.div>
                 </div>
 
                 {/* Required Documents Section */}
-                <div className='my-24'>
+                <div className='my-20'>
                     <div className="text-center mb-12">
-                        <h2 className="text-3xl md:text-4xl font-bold text-primary font-serif mb-3">Required Documents</h2>
+                        <h2 className="text-3xl md:text-4xl font-bold text-primary font-serif mb-3">
+                            Required Documents
+                        </h2>
                         <div className="w-24 h-1 bg-secondary mx-auto mb-4"></div>
-                        <p className="text-gray-600 text-lg">Please prepare the following documents for admission</p>
+                        <p className="text-gray-600 text-lg">
+                            Please prepare the following documents for admission
+                        </p>
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -691,16 +570,26 @@ const Admissions = () => {
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true }}
                                 transition={{ delay: idx * 0.1 }}
-                                whileHover={{ y: -5 }}
-                                className="bg-[#1a3a5f] rounded-2xl p-6 relative overflow-hidden group"
+                                whileHover={{ y: -8, scale: 1.02 }}
+                                className="bg-gradient-to-br from-[#0F2A4A] to-[#1a3a5f] rounded-2xl p-6 relative overflow-hidden group shadow-xl hover:shadow-2xl transition-all duration-300"
                             >
+                                {/* Decorative Elements */}
                                 <div className="absolute -top-10 -right-10 w-32 h-32 bg-secondary/10 rounded-full"></div>
+                                <motion.div
+                                    className="absolute -bottom-6 -left-6 w-20 h-20 bg-secondary/5 rounded-full"
+                                    animate={{ scale: [1, 1.3, 1] }}
+                                    transition={{ duration: 3, repeat: Infinity, delay: idx * 0.2 }}
+                                />
                                 
                                 <div className="relative z-10">
                                     <div className="flex items-start justify-between mb-4">
-                                        <div className="bg-secondary rounded-full w-12 h-12 flex items-center justify-center">
-                                            <CheckCircle className="text-primary" size={24} />
-                                        </div>
+                                        <motion.div 
+                                            className="bg-secondary rounded-full w-14 h-14 flex items-center justify-center"
+                                            whileHover={{ rotate: 360, scale: 1.1 }}
+                                            transition={{ duration: 0.6 }}
+                                        >
+                                            <CheckCircle className="text-primary" size={26} />
+                                        </motion.div>
                                         <span className={`text-xs font-bold uppercase px-3 py-1 rounded-full ${
                                             doc.required ? 'bg-secondary text-primary' : 'bg-white/10 text-white/70'
                                         }`}>
@@ -715,16 +604,16 @@ const Admissions = () => {
                     </div>
                 </div>
 
-                {/* Additional CTA Section */}
+                {/* Enhanced CTA Section */}
                 <motion.div
                     initial={{ opacity: 0, y: 50 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.8 }}
-                    className="bg-gradient-to-r from-primary to-primary/90 rounded-3xl p-8 md:p-12 text-center text-white relative overflow-hidden"
+                    className="bg-gradient-to-br from-[#0F2A4A] via-[#1a3a5f] to-[#0F2A4A] rounded-3xl p-8 md:p-12 text-center text-white relative overflow-hidden shadow-2xl"
                 >
                     {/* Animated Background Pattern */}
-                    {[...Array(15)].map((_, i) => (
+                    {[...Array(20)].map((_, i) => (
                         <motion.div
                             key={i}
                             className="absolute w-20 h-20 border border-white/10 rounded-full"
@@ -744,22 +633,54 @@ const Admissions = () => {
                         />
                     ))}
 
+                    {/* Gradient Orbs */}
+                    <motion.div
+                        className="absolute top-0 left-1/4 w-64 h-64 bg-secondary/20 rounded-full blur-3xl"
+                        animate={{
+                            scale: [1, 1.2, 1],
+                            x: [0, 50, 0],
+                            y: [0, 30, 0]
+                        }}
+                        transition={{ duration: 8, repeat: Infinity }}
+                    />
+                    <motion.div
+                        className="absolute bottom-0 right-1/4 w-64 h-64 bg-secondary/15 rounded-full blur-3xl"
+                        animate={{
+                            scale: [1, 1.3, 1],
+                            x: [0, -50, 0],
+                            y: [0, -30, 0]
+                        }}
+                        transition={{ duration: 10, repeat: Infinity }}
+                    />
+
+                    <motion.div
+                        initial={{ scale: 0 }}
+                        whileInView={{ scale: 1 }}
+                        viewport={{ once: true }}
+                        transition={{ type: "spring", delay: 0.2 }}
+                        className="inline-flex items-center bg-secondary text-primary px-6 py-2 rounded-full font-semibold mb-6 shadow-lg relative z-10"
+                    >
+                        <Sparkles className="mr-2" size={20} />
+                        Get Started Today
+                    </motion.div>
+
                     <motion.h3
                         initial={{ y: 20, opacity: 0 }}
                         whileInView={{ y: 0, opacity: 1 }}
                         viewport={{ once: true }}
                         className="text-3xl md:text-4xl font-bold mb-4 font-serif relative z-10"
                     >
-                        Need Help with Admissions?
+                        Ready to Enroll Your Child?
                     </motion.h3>
+                    
                     <motion.p
                         initial={{ y: 20, opacity: 0 }}
                         whileInView={{ y: 0, opacity: 1 }}
                         viewport={{ once: true }}
                         transition={{ delay: 0.2 }}
-                        className="text-lg text-white/90 max-w-2xl mx-auto mb-8 relative z-10"
+                        className="text-lg md:text-xl text-white/90 max-w-3xl mx-auto mb-8 relative z-10"
                     >
-                        Visit our campus for a guided tour or speak with our admissions counselor to learn more about our programs
+                        Visit our campus for a guided tour or speak with our admissions counselor to learn more about our programs and begin your child's journey to excellence
                     </motion.p>
 
                     <motion.div
@@ -771,22 +692,44 @@ const Admissions = () => {
                     >
                         <motion.a
                             href="tel:+918023461685"
-                            whileHover={{ scale: 1.05 }}
+                            whileHover={{ scale: 1.05, y: -2 }}
                             whileTap={{ scale: 0.95 }}
-                            className="bg-secondary text-primary px-8 py-4 rounded-lg font-bold shadow-2xl hover:shadow-3xl transition-all inline-flex items-center gap-2"
+                            className="bg-secondary text-primary px-8 py-4 rounded-xl font-bold shadow-2xl hover:shadow-3xl transition-all inline-flex items-center gap-2"
                         >
                             <Phone size={20} />
                             Call Us Now
                         </motion.a>
                         <motion.a
                             href="mailto:scadambividyakendra@gmail.com"
-                            whileHover={{ scale: 1.05 }}
+                            whileHover={{ scale: 1.05, y: -2 }}
                             whileTap={{ scale: 0.95 }}
-                            className="bg-white/10 backdrop-blur-sm text-white border-2 border-white/30 px-8 py-4 rounded-lg font-bold hover:bg-white/20 transition-all inline-flex items-center gap-2"
+                            className="bg-white/10 backdrop-blur-sm text-white border-2 border-white/30 px-8 py-4 rounded-xl font-bold hover:bg-white/20 transition-all inline-flex items-center gap-2"
                         >
                             <Mail size={20} />
                             Email Us
                         </motion.a>
+                        <motion.a
+                            href="#"
+                            whileHover={{ scale: 1.05, y: -2 }}
+                            whileTap={{ scale: 0.95 }}
+                            className="bg-white/10 backdrop-blur-sm text-white border-2 border-white/30 px-8 py-4 rounded-xl font-bold hover:bg-white/20 transition-all inline-flex items-center gap-2"
+                        >
+                            <MapPin size={20} />
+                            Visit Campus
+                        </motion.a>
+                    </motion.div>
+
+                    {/* Additional Info */}
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        whileInView={{ opacity: 1 }}
+                        viewport={{ once: true }}
+                        transition={{ delay: 0.6 }}
+                        className="mt-8 pt-6 border-t border-white/20 relative z-10"
+                    >
+                        <p className="text-white/80 text-sm">
+                            Office Hours: Monday - Saturday, 9:00 AM - 4:00 PM
+                        </p>
                     </motion.div>
                 </motion.div>
             </div>
