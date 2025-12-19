@@ -16,7 +16,7 @@ import {
 import { sendContact } from '../utils/sendContact';
 
 const Contact = () => {
-    const [formData, setFormData] = useState({ name: '', email: '', subject: '', message: '' });
+    const [formData, setFormData] = useState({ name: '', email: '', phone: '', subject: '', message: '' });
     const [focusedField, setFocusedField] = useState(null);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [isSuccess, setIsSuccess] = useState(false);
@@ -31,13 +31,14 @@ const Contact = () => {
                 section: 'contact',
                 name: formData.name,
                 email: formData.email,
+                phone: formData.phone,
                 subject: formData.subject,
                 message: formData.message
             });
             setIsSuccess(true);
             setTimeout(() => {
                 setIsSuccess(false);
-                setFormData({ name: '', email: '', subject: '', message: '' });
+                setFormData({ name: '', email: '', phone: '', subject: '', message: '' });
             }, 3000);
         } catch (err) {
             console.error(err);
@@ -66,7 +67,7 @@ const Contact = () => {
         {
             icon: Phone,
             title: 'Phone',
-            content: '+91 98765 43210',
+            content: '+91 8272 236614 / +91 9448 479229',
             color: 'from-[#FDB913] to-[#FDB913]'
         },
         {
@@ -397,6 +398,40 @@ const Contact = () => {
                                                     required
                                                     className="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-[#FDB913] focus:ring-2 focus:ring-[#FDB913]/20 outline-none transition-all"
                                                     placeholder="john@example.com"
+                                                />
+                                            </div>
+                                        </div>
+                                    </motion.div>
+
+                                    {/* Phone Input */}
+                                    <motion.div
+                                        initial={{ opacity: 0, y: 20 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        transition={{ delay: 0.25 }}
+                                    >
+                                        <label className="block text-sm font-semibold text-gray-700 mb-2">
+                                            Phone Number *
+                                        </label>
+                                        <div className="relative">
+                                            <motion.div
+                                                animate={{
+                                                    scale: focusedField === 'phone' ? 1 : 0,
+                                                    opacity: focusedField === 'phone' ? 1 : 0
+                                                }}
+                                                className="absolute inset-0 bg-gradient-to-r from-[#0F2A4A]/10 to-[#FDB913]/10 rounded-xl"
+                                            />
+                                            <div className="relative flex items-center">
+                                                <Phone className="absolute left-4 text-gray-400" size={20} />
+                                                <input
+                                                    name="phone"
+                                                    value={formData.phone}
+                                                    onChange={handleChange}
+                                                    onFocus={() => setFocusedField('phone')}
+                                                    onBlur={() => setFocusedField(null)}
+                                                    type="tel"
+                                                    required
+                                                    className="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-[#FDB913] focus:ring-2 focus:ring-[#FDB913]/20 outline-none transition-all"
+                                                    placeholder="+91 98765 43210"
                                                 />
                                             </div>
                                         </div>
