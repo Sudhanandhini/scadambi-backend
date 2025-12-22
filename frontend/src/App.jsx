@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-route
 // MAIN WEBSITE Components
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
+import Chatbot from './components/Chatbot';
 
 // PLAY-SCHOOL Components
 import PlaySchoolHeader from './pages/play-school/PlaySchoolHeader';
@@ -49,6 +50,7 @@ import PlaySchoolActivities from './pages/play-school/PlaySchoolActivities';
 import PlaySchoolGallery from './pages/play-school/PlaySchoolGallery';
 import PlaySchoolSchoolTimings from './pages/play-school/PlaySchoolSchoolTimings';
 import PlaySchoolAcademicCalendar from './pages/play-school/PlaySchoolAcademicCalendar';
+import PlaySchoolNews from './pages/play-school/PlaySchoolNews';
 
 // PRE-PRIMARY Pages
 import PrePrimaryHome from './pages/pre-primary/PrePrimaryHome';
@@ -88,6 +90,8 @@ import IcseHighAdmissions from './pages/icse-high/IcseHighAdmissions';
 import IcseHighFacilities from './pages/icse-high/IcseHighFacilities';
 import IcseHighContact from './pages/icse-high/IcseHighContact';
 import IcseHighSchoolTimings from './pages/icse-high/IcseHighSchoolTimings';
+import IcseHighActivities from './pages/icse-high/IcseHighActivities';
+import IcseHighCalendar from './pages/icse-high/IcseHighCalendar';
 
 // HIGH SCHOOL Pages
 import HighSchoolHome from './pages/high-school/HighSchoolHome';
@@ -99,6 +103,7 @@ import HighSchoolActivities from './pages/high-school/HighSchoolActivities';
 import HighSchoolContact from './pages/high-school/HighSchoolContact';
 import HighSchoolSchoolTimings from './pages/high-school/HighSchoolSchoolTimings';
 import HighSchoolAcademicCalendar from './pages/high-school/HighSchoolAcademicCalendar';
+import HighSchoolNews from './pages/high-school/HighSchoolNews';
 
 // PU COLLEGE Pages
 import PuCollegeHome from './pages/pu-college/PuCollegeHome';
@@ -107,14 +112,10 @@ import PuCollegeAcademic from './pages/pu-college/PuCollegeAcademic';
 import PuCollegeAdmissions from './pages/pu-college/PuCollegeAdmissions';
 import PuCollegeFacilities from './pages/pu-college/PuCollegeFacilities';
 import PuCollegeContact from './pages/pu-college/PuCollegeContact';
-import IcseHighActivities from './pages/icse-high/IcseHighActivities';
-import IcseHighCalendar from './pages/icse-high/IcseHighCalendar';
 import PuCollegeCalendar from './pages/pu-college/PuCollegeCalendar';
 import PuCollegeSchoolTimings from './pages/pu-college/Pucollegeschooltimings';
 import PuCollegeActivities from './pages/pu-college/PuCollegeActivities';
 import PuCollegeGallery from './pages/pu-college/PuCollegeGallery';
-import PlaySchoolNews from './pages/play-school/PlaySchoolNews';
-import HighSchoolNews from './pages/high-school/HighSchoolNews';
 
 const ScrollToTopWrapper = () => {
   const { pathname } = useLocation();
@@ -144,6 +145,9 @@ const Layout = ({ children }) => {
                   <Navbar />}
 
       <main>{children}</main>
+
+      {/* Chatbot Component - Available on all pages */}
+      <Chatbot />
 
       {isPlaySchool ? <PlaySchoolFooter /> :
         isPrePrimary ? <PrePrimaryFooter /> :
@@ -182,7 +186,7 @@ function App() {
           <Route path="/play-school/gallery" element={<PlaySchoolGallery />} />
           <Route path="/play-school/timings" element={<PlaySchoolSchoolTimings />} />
           <Route path="/play-school/calendar" element={<PlaySchoolAcademicCalendar />} />
-           <Route path="/play-school/news" element={<PlaySchoolNews />} />
+          <Route path="/play-school/news" element={<PlaySchoolNews />} />
 
           {/* PRE-PRIMARY SECTION ROUTES */}
           <Route path="/pre-primary" element={<PrePrimaryHome />} />
@@ -249,8 +253,6 @@ function App() {
           <Route path="/pu-college/schooltime" element={<PuCollegeSchoolTimings />} />
           <Route path="/pu-college/activities" element={<PuCollegeActivities />} />
           <Route path="/pu-college/gallery" element={<PuCollegeGallery />} />
-
-
         </Routes>
       </Layout>
     </Router>

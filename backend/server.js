@@ -3,6 +3,7 @@ const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const nodemailer = require('nodemailer');
+const db = require('./db'); // Import database connection
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -21,7 +22,7 @@ const sectionEmails = {
   'contact': 'dmahesh879@gmail.com'
 };
 
-// Contact route - CHANGED to /api/send-contact to match your frontend
+// ============= CONTACT FORM ROUTE =============
 app.post('/api/send-contact', async (req, res) => {
   try {
     console.log('📨 Received contact form:', req.body);
@@ -81,15 +82,233 @@ app.post('/api/send-contact', async (req, res) => {
     res.json({ success: true, message: 'Message sent successfully!' });
     
   } catch (error) {
-    console.error('❌ Error:', error);
+    console.error('❌ Contact form error:', error);
     res.status(500).json({ success: false, message: 'Failed to send message: ' + error.message });
   }
 });
 
-app.get('/', (req, res) => res.json({ message: 'S. Cadambi Contact API' }));
-app.get('/health', (req, res) => res.json({ status: 'healthy' }));
+// ============= CHATBOT ROUTES =============
+
+// Create new chatbot conversation
+app.post('/api/chatbot/conversation', async (req, res) => {
+  try {
+    const { section = 'main' } = req.body;
+    const sessionId = require('crypto').randomUUID();
+    
+    console.log('🤖 Creating conversation for section:', section);
+    
+    const [result] = await db.query(
+      'INSERT INTO chatbot_conversations (session_id, section) VALUES (?, ?)',
+      [sessionId, section]
+    );
+    
+    console.log('✅ Conversation created with ID:', result.insertId);
+    
+    res.json({ 
+      conversationId: result.insertId, 
+      sessionId,
+      section 
+    });
+  } catch (error) {
+    console.error('❌ Chatbot conversation error:', error);
+    res.status(500).json({ 
+      error: 'Failed to create conversation', 
+      details: error.message 
+    });
+  }
+});
+
+// Send message and get bot response
+app.post('/api/chatbot/message', async (req, res) => {
+  const { conversationId, message, section = 'main' } = req.body;
+
+  try {
+    console.log('📨 Received message:', { conversationId, message, section });
+
+    if (!conversationId || !message) {
+      return res.status(400).json({ 
+        error: 'Missing required fields',
+        details: 'conversationId and message are required' 
+      });
+    }
+
+    // Save user message
+    await db.query(
+      'INSERT INTO chatbot_messages (conversation_id, message, sender) VALUES (?, ?, ?)',
+      [conversationId, message, 'user']
+    );
+    console.log('✅ User message saved');
+
+    // Get bot response
+    const botResponse = await getChatbotResponse(message, section);
+    console.log('🤖 Bot response generated:', botResponse.substring(0, 50) + '...');
+
+    // Save bot message
+    await db.query(
+      'INSERT INTO chatbot_messages (conversation_id, message, sender) VALUES (?, ?, ?)',
+      [conversationId, botResponse, 'bot']
+    );
+    console.log('✅ Bot message saved');
+
+    res.json({ 
+      userMessage: message, 
+      botResponse 
+    });
+  } catch (error) {
+    console.error('❌ Chatbot message error:', error);
+    res.status(500).json({ 
+      error: 'Failed to process message', 
+      details: error.message 
+    });
+  }
+});
+
+// Get conversation history
+app.get('/api/chatbot/conversation/:id/messages', async (req, res) => {
+  try {
+    const conversationId = req.params.id;
+    console.log('📜 Fetching messages for conversation:', conversationId);
+    
+    const [messages] = await db.query(
+      'SELECT * FROM chatbot_messages WHERE conversation_id = ? ORDER BY created_at ASC',
+      [conversationId]
+    );
+    
+    console.log('✅ Found', messages.length, 'messages');
+    res.json(messages);
+  } catch (error) {
+    console.error('❌ Fetch messages error:', error);
+    res.status(500).json({ 
+      error: 'Failed to fetch messages', 
+      details: error.message 
+    });
+  }
+});
+
+// Get all bot responses (for debugging/admin)
+app.get('/api/chatbot/responses', async (req, res) => {
+  try {
+    const [responses] = await db.query('SELECT * FROM chatbot_responses ORDER BY section, priority DESC');
+    console.log('✅ Found', responses.length, 'bot responses');
+    res.json(responses);
+  } catch (error) {
+    console.error('❌ Fetch responses error:', error);
+    res.status(500).json({ 
+      error: 'Failed to fetch responses', 
+      details: error.message 
+    });
+  }
+});
+
+// ============= CHATBOT LOGIC =============
+
+async function getChatbotResponse(message, section) {
+  const lowerMessage = message.toLowerCase().trim();
+  
+  try {
+    console.log('🔍 Finding response for message:', lowerMessage, 'in section:', section);
+    
+    // Get all responses for the current section and 'all' sections
+    const [responses] = await db.query(
+      'SELECT * FROM chatbot_responses WHERE section IN (?, ?) ORDER BY priority DESC',
+      [section, 'all']
+    );
+    
+    console.log('📚 Found', responses.length, 'possible responses');
+    
+    if (responses.length === 0) {
+      console.log('⚠️ No responses found in database');
+      return "I'm here to help! You can ask me about:\n• Admissions\n• Academic programs\n• Facilities\n• School timings\n• Contact information\n\nOr type 'help' to see all available options.";
+    }
+    
+    let bestMatch = null;
+    let highestScore = 0;
+
+    // Find best matching response based on keywords
+    for (const response of responses) {
+      const keywords = response.keywords.split(',').map(k => k.trim().toLowerCase());
+      let score = 0;
+
+      for (const keyword of keywords) {
+        if (lowerMessage.includes(keyword)) {
+          score += response.priority;
+          console.log('✓ Keyword match:', keyword, '(priority:', response.priority + ')');
+        }
+      }
+
+      if (score > highestScore) {
+        highestScore = score;
+        bestMatch = response;
+      }
+    }
+
+    if (bestMatch) {
+      console.log('🎯 Best match found with score:', highestScore);
+      return bestMatch.response;
+    }
+
+    // No keyword match found - return default response
+    console.log('❌ No keyword matches found, returning default');
+    return "I'm here to help! You can ask me about:\n• Admissions\n• Academic programs\n• Facilities\n• School timings\n• Contact information\n\nOr type 'help' to see all available options.";
+    
+  } catch (error) {
+    console.error('❌ Chatbot response error:', error);
+    return "I'm having trouble responding right now. Please try again or contact us directly at support@sunsys.in";
+  }
+}
+
+// ============= BASIC ROUTES =============
+
+app.get('/', (req, res) => {
+  res.json({ 
+    message: 'S. Cadambi Education Center API',
+    version: '1.0.0',
+    endpoints: {
+      contact: 'POST /api/send-contact',
+      chatbot: {
+        createConversation: 'POST /api/chatbot/conversation',
+        sendMessage: 'POST /api/chatbot/message',
+        getHistory: 'GET /api/chatbot/conversation/:id/messages',
+        getResponses: 'GET /api/chatbot/responses'
+      }
+    }
+  });
+});
+
+app.get('/health', (req, res) => {
+  res.json({ 
+    status: 'healthy', 
+    timestamp: new Date(),
+    database: 'connected'
+  });
+});
+
+// Error handling middleware
+app.use((err, req, res, next) => {
+  console.error('💥 Unhandled error:', err);
+  res.status(500).json({ 
+    error: 'Internal server error', 
+    message: err.message 
+  });
+});
+
+// 404 handler
+app.use((req, res) => {
+  res.status(404).json({ 
+    error: 'Route not found',
+    path: req.path 
+  });
+});
+
+// ============= START SERVER =============
 
 app.listen(PORT, () => {
-  console.log(`🚀 Server running on port ${PORT}`);
-  console.log(`📧 Email: ${process.env.EMAIL_USER}`);
+  console.log('\n' + '='.repeat(50));
+  console.log('🚀 S. Cadambi Education Center API Server');
+  console.log('='.repeat(50));
+  console.log('📡 Port:', PORT);
+  console.log('📧 Email:', process.env.EMAIL_USER);
+  console.log('💾 Database:', process.env.DB_NAME || 'scadambi');
+  console.log('🌐 Server URL: http://localhost:' + PORT);
+  console.log('='.repeat(50) + '\n');
 });
