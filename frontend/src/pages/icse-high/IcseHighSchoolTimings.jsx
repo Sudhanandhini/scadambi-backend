@@ -135,7 +135,7 @@ const IcseHighSchoolTimings = () => {
                       />
                       <div>
                         <p className="text-lg font-semibold text-gray-700">Monday to Friday</p>
-                        <p className="text-2xl font-bold text-[#0F2A4A]">10:00 AM to 04:00 PM</p>
+                        <p className="text-2xl font-bold text-[#0F2A4A]">9.30am to 5.30pm</p>
                       </div>
                     </motion.div>
                     
@@ -152,7 +152,7 @@ const IcseHighSchoolTimings = () => {
                       />
                       <div>
                         <p className="text-lg font-semibold text-gray-700">Saturday</p>
-                        <p className="text-2xl font-bold text-[#0F2A4A]">08:45 to 12:45 PM</p>
+                        <p className="text-2xl font-bold text-[#0F2A4A]">9.30am to 5.30pm</p>
                       </div>
                     </motion.div>
                   </div>
@@ -378,7 +378,7 @@ const IcseHighSchoolTimings = () => {
                   <div className="w-14 h-14 bg-[#0F2A4A] rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform">
                     <Phone className="w-7 h-7 text-[#FDB913]" />
                   </div>
-                  <span className="text-xl font-semibold text-[#0F2A4A]">080-23232831</span>
+                  <span className="text-xl font-semibold text-[#0F2A4A]">080-23232831, 23226019</span>
                 </motion.a>
                 <motion.a
                   href="mailto:scvk123@rediffmail.com"

@@ -32,7 +32,9 @@ const IcseHighHeader = () => {
         },
         { name: 'Admissions', path: '/icse-high/admissions' },
         { name: 'Activity', path: '/icse-high/activites' },
-        { name: 'Facilities', path: '/icse-high/facilities' },
+                { name: 'Facilities', path: '/icse-high/facilities' },
+                { name: 'Gallery', path: '/icse-high/gallery' },
+                 { name: 'News', path: '/icse-high/news' },
         { name: 'Contact', path: '/icse-high/contact' }
     ];
 

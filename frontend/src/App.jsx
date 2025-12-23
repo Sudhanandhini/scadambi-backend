@@ -116,6 +116,9 @@ import PuCollegeCalendar from './pages/pu-college/PuCollegeCalendar';
 import PuCollegeSchoolTimings from './pages/pu-college/Pucollegeschooltimings';
 import PuCollegeActivities from './pages/pu-college/PuCollegeActivities';
 import PuCollegeGallery from './pages/pu-college/PuCollegeGallery';
+import IcseHighNew from './pages/icse-high/IcseHighNews';
+import IcseHighNews from './pages/icse-high/IcseHighNews';
+import IcseHighGallery from './pages/icse-high/IcseHighGallery';
 
 const ScrollToTopWrapper = () => {
   const { pathname } = useLocation();
@@ -229,6 +232,8 @@ function App() {
           <Route path="/icse-high/activites" element={<IcseHighActivities />} />
           <Route path="/icse-high/calendar" element={<IcseHighCalendar />} />
           <Route path="/icse-high/contact" element={<IcseHighContact />} />
+          <Route path="/icse-high/news" element={<IcseHighNews />} />
+          <Route path="/icse-high/gallery" element={<IcseHighGallery />} />
 
           {/* HIGH SCHOOL SECTION ROUTES */}
           <Route path="/high-school" element={<HighSchoolHome />} />

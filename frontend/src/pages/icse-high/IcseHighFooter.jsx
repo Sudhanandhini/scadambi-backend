@@ -98,8 +98,7 @@ const IcseHighFooter = () => {
                             <li className="flex items-start">
                                 <Clock className="text-[#FDB913] mr-3 mt-1 shrink-0" size={20} />
                                 <span className="text-white/90 text-sm">
-                                    Mon - Fri: 8:45 AM - 2:30 PM<br />
-                                    Sat: 8:45 AM - 11:40 AM
+                                  9.30am to 5.30pm
                                 </span>
                             </li>
                         </ul>

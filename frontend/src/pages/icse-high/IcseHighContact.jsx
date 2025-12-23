@@ -47,8 +47,8 @@ const IcseHighContact = () => {
     {
       icon: Phone,
       title: 'Phone',
-      details: ['080-23232831'],
-      links: ['tel:08023232831']
+      details: ['080-23232831', '080-23226019'],
+      links: ['tel:08023232831', 'tel:08023226019']
     },
     {
       icon: Mail,
@@ -71,8 +71,8 @@ const IcseHighContact = () => {
       icon: Clock,
       title: 'School Hours',
       details: [
-        'Mon - Fri: 10:00 AM - 04:00 PM',
-        'Saturday: 08:45 AM - 12:45 PM'
+        'Mon - Fri: 9.30am to 5.30pm',
+        'Saturday: 9.30am to 5.30pm'
       ],
       links: []
     }
